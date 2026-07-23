@@ -30,7 +30,7 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 # -----------------------------------------------------------------------------
 
 INSTALLED_APPS = [
-    # Django
+    # Django Apps
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    # Third Party
+    # Third-party Apps
     "rest_framework",
     "rest_framework_simplejwt",
     "drf_spectacular",
@@ -51,10 +51,8 @@ INSTALLED_APPS = [
     "guests",
     "gifts",
     "payments",
-    "gallery",
-    "stories",
-    "dashboard",
-    "core",
+    "guestbook",
+    "analytics",
 ]
 
 # -----------------------------------------------------------------------------
