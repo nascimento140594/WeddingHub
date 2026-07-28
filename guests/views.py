@@ -5,6 +5,9 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
+
 from .models import Guest
 from .serializers import GuestSerializer
 
@@ -12,7 +15,34 @@ from .serializers import GuestSerializer
 class GuestViewSet(viewsets.ModelViewSet):
     serializer_class = GuestSerializer
     permission_classes = [IsAuthenticated]
+
     queryset = Guest.objects.select_related("wedding")
+
+    filter_backends = [
+        DjangoFilterBackend,
+        SearchFilter,
+        OrderingFilter,
+    ]
+
+    filterset_fields = [
+        "status",
+    ]
+
+    search_fields = [
+        "full_name",
+        "email",
+        "phone",
+    ]
+
+    ordering_fields = [
+        "full_name",
+        "created_at",
+        "status",
+    ]
+
+    ordering = [
+        "full_name",
+    ]
 
     def get_queryset(self):
         return self.queryset.filter(
