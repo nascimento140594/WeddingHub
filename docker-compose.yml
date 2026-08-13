@@ -1,0 +1,42 @@
+services:
+  db:
+    image: postgres:17
+
+    container_name: weddinghub-db
+
+    restart: always
+
+    environment:
+      POSTGRES_DB: weddinghub
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+
+    container_name: weddinghub-api
+
+    volumes:
+      - .:/app
+
+    ports:
+      - "8000:8000"
+
+    depends_on:
+      - db
+
+    environment:
+      DB_NAME: weddinghub
+      DB_USER: postgres
+      DB_PASSWORD: 123456
+      DB_HOST: db
+      DB_PORT: 5432
+
+volumes:
+  postgres_data:
