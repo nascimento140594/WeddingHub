@@ -11,11 +11,13 @@ djangorestframework==3.17.1
 djangorestframework-stubs==3.17.0
 djangorestframework_simplejwt==5.5.1
 drf-spectacular==0.30.0
+gunicorn==26.0.0
 idna==3.18
 inflection==0.5.1
 jsonschema==4.26.0
 jsonschema-specifications==2025.9.1
 mercadopago==3.3.0
+packaging==26.3
 pillow==12.3.0
 psycopg2-binary==2.9.12
 PyJWT==2.13.0
