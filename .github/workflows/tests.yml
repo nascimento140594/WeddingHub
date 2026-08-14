@@ -46,7 +46,7 @@ jobs:
 
       - name: Run migrations
         env:
-          SECRET_KEY: test-secret-key
+          SECRET_KEY: 7*)7a#d5%3lq6n+=#^zwbs-)3d(ikkol^=qon_qkv)7i2f)w#x
           DEBUG: "False"
           ALLOWED_HOSTS: 127.0.0.1,localhost
           DB_NAME: weddinghub
@@ -59,7 +59,7 @@ jobs:
 
       - name: Run tests
         env:
-          SECRET_KEY: test-secret-key
+          SECRET_KEY: 7*)7a#d5%3lq6n+=#^zwbs-)3d(ikkol^=qon_qkv)7i2f)w#x
           DEBUG: "False"
           ALLOWED_HOSTS: 127.0.0.1,localhost
           DB_NAME: weddinghub
