@@ -10,6 +10,8 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+from payments.public_views import PaymentResultView
+
 urlpatterns = [
     # Admin
     path(
@@ -21,6 +23,13 @@ urlpatterns = [
     path(
         "w/",
         include("wedding.public_urls"),
+    ),
+
+    # Payment result pages
+    path(
+        "pagamento/<str:result>/",
+        PaymentResultView.as_view(),
+        name="payment-result",
     ),
 
     # Accounts
