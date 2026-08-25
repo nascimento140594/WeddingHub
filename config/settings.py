@@ -251,10 +251,33 @@ SPECTACULAR_SETTINGS = {
 CORS_ALLOW_ALL_ORIGINS = (
     os.getenv(
         "CORS_ALLOW_ALL_ORIGINS",
-        "True",
+        "False",
     ).lower()
     == "true"
 )
+
+CORS_ALLOWED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv(
+        "CORS_ALLOWED_ORIGINS",
+        "http://localhost:8000,http://127.0.0.1:8000",
+    ).split(",")
+    if origin.strip()
+]
+
+
+# -----------------------------------------------------------------------------
+# CSRF
+# -----------------------------------------------------------------------------
+
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv(
+        "CSRF_TRUSTED_ORIGINS",
+        "http://localhost:8000,http://127.0.0.1:8000",
+    ).split(",")
+    if origin.strip()
+]
 
 
 # -----------------------------------------------------------------------------
