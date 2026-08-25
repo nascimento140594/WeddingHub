@@ -17,6 +17,12 @@ urlpatterns = [
         admin.site.urls,
     ),
 
+    # Public wedding website
+    path(
+        "w/",
+        include("wedding.public_urls"),
+    ),
+
     # Accounts
     path(
         "api/accounts/",
