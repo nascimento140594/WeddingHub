@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ wedding.bride_name }} & {{ wedding.groom_name }}</title>
+    <meta
+        name="description"
+        content="Informações do casamento e lista de presentes."
+    >
+    <style>
+        :root {
+            --primary: {{ wedding.primary_color }};
+            --secondary: {{ wedding.secondary_color }};
+            --ink: #332b2b;
+            --muted: #766b6b;
+            --card: rgba(255, 255, 255, 0.92);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, #f7eee8, transparent 35%),
+                linear-gradient(180deg, #fffaf7 0%, #f7f0ec 100%);
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        .container {
+            width: min(1100px, calc(100% - 32px));
+            margin: 0 auto;
+        }
+
+        .hero {
+            min-height: 72vh;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            padding: 70px 0;
+        }
+
+        .hero-card {
+            width: min(820px, 100%);
+            padding: 56px 28px;
+            background: var(--card);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 28px;
+            box-shadow: 0 24px 70px rgba(70, 45, 35, 0.12);
+        }
+
+        .eyebrow {
+            color: var(--primary);
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            font-size: 13px;
+        }
+
+        h1 {
+            margin: 18px 0 10px;
+            font-size: clamp(44px, 8vw, 82px);
+            font-weight: 400;
+            line-height: 0.98;
+        }
+
+        .date {
+            margin-top: 24px;
+            font-size: 20px;
+            color: var(--muted);
+        }
+
+        .section {
+            padding: 70px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .section-title h2 {
+            margin: 0 0 10px;
+            font-size: 36px;
+            font-weight: 400;
+        }
+
+        .section-title p {
+            margin: 0;
+            color: var(--muted);
+            font-family: Arial, sans-serif;
+        }
+
+        .info-grid,
+        .gift-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .info-card,
+        .gift-card {
+            background: var(--card);
+            border-radius: 22px;
+            padding: 24px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .info-card h3,
+        .gift-card h3 {
+            margin-top: 0;
+        }
+
+        .info-card p,
+        .gift-card p {
+            color: var(--muted);
+            line-height: 1.55;
+            font-family: Arial, sans-serif;
+        }
+
+        .gift-image {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 18px;
+        }
+
+        .price {
+            color: var(--primary);
+            font-size: 24px;
+            font-weight: 700;
+            margin: 14px 0;
+        }
+
+        .gift-form {
+            display: grid;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 14px;
+            border-radius: 12px;
+            border: 1px solid #ddd2cd;
+            font: 15px Arial, sans-serif;
+        }
+
+        button {
+            border: 0;
+            border-radius: 12px;
+            padding: 14px 18px;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            font: 700 15px Arial, sans-serif;
+        }
+
+        button:disabled { opacity: 0.6; cursor: wait; }
+
+        .message {
+            min-height: 22px;
+            margin-top: 8px;
+            color: #9a2e2e;
+            font: 14px Arial, sans-serif;
+        }
+
+        footer {
+            padding: 45px 0 65px;
+            text-align: center;
+            color: var(--muted);
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-card">
+                    <div class="eyebrow">Nosso casamento</div>
+                    <h1>{{ wedding.bride_name }}<br>&amp;<br>{{ wedding.groom_name }}</h1>
+                    <div class="date">
+                        {{ wedding.wedding_date|date:"d/m/Y" }} · {{ wedding.ceremony_time|time:"H:i" }}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>O grande dia</h2>
+                    <p>{{ wedding.about|default:"Será uma alegria celebrar esse momento ao lado de pessoas especiais." }}</p>
+                </div>
+
+                <div class="info-grid">
+                    <article class="info-card">
+                        <h3>Cerimônia</h3>
+                        <p>{{ wedding.ceremony_address }}</p>
+                    </article>
+                    <article class="info-card">
+                        <h3>Recepção</h3>
+                        <p>{{ wedding.reception_address|default:"Em breve compartilharemos os detalhes." }}</p>
+                    </article>
+                    <article class="info-card">
+                        <h3>Local</h3>
+                        <p>{{ wedding.city }} - {{ wedding.state }}</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="presentes">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Lista de presentes</h2>
+                    <p>Escolha um presente e conclua o pagamento com segurança pelo Mercado Pago.</p>
+                </div>
+
+                <div class="gift-grid">
+                    {% for gift in gifts %}
+                        <article class="gift-card">
+                            {% if gift.image %}
+                                <img
+                                    class="gift-image"
+                                    src="{{ gift.image.url }}"
+                                    alt="{{ gift.name }}"
+                                >
+                            {% endif %}
+                            <h3>{{ gift.name }}</h3>
+                            {% if gift.description %}
+                                <p>{{ gift.description }}</p>
+                            {% endif %}
+                            <div class="price">R$ {{ gift.price|floatformat:2 }}</div>
+
+                            <form class="gift-form" data-gift-id="{{ gift.id }}">
+                                <input
+                                    name="guest_name"
+                                    type="text"
+                                    placeholder="Seu nome"
+                                    required
+                                >
+                                <input
+                                    name="guest_email"
+                                    type="email"
+                                    placeholder="Seu e-mail"
+                                    required
+                                >
+                                <button type="submit">Presentear</button>
+                                <div class="message"></div>
+                            </form>
+                        </article>
+                    {% empty %}
+                        <article class="gift-card">
+                            <h3>Em breve</h3>
+                            <p>A lista de presentes ainda está sendo preparada.</p>
+                        </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        Feito com carinho para {{ wedding.bride_name }} &amp; {{ wedding.groom_name }}.
+    </footer>
+
+    <script>
+        document.querySelectorAll(".gift-form").forEach((form) => {
+            form.addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                const button = form.querySelector("button");
+                const message = form.querySelector(".message");
+                const data = new FormData(form);
+
+                button.disabled = true;
+                message.textContent = "Preparando seu pagamento...";
+
+                try {
+                    const response = await fetch("/api/payments/checkout/", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            gift: Number(form.dataset.giftId),
+                            guest_name: data.get("guest_name"),
+                            guest_email: data.get("guest_email"),
+                        }),
+                    });
+
+                    const result = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(result.detail || "Não foi possível iniciar o pagamento.");
+                    }
+
+                    if (!result.checkout_url) {
+                        throw new Error("O Mercado Pago não retornou o link de pagamento.");
+                    }
+
+                    window.location.href = result.checkout_url;
+                } catch (error) {
+                    message.textContent = error.message;
+                    button.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
