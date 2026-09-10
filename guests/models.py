@@ -1,3 +1,5 @@
+import secrets
+
 from django.db import models
 
 from wedding.models import Wedding
@@ -29,6 +31,7 @@ class Guest(models.Model):
     invitation_code = models.CharField(
         max_length=50,
         unique=True,
+        blank=True,
     )
 
     companions = models.PositiveIntegerField(
@@ -45,7 +48,6 @@ class Guest(models.Model):
         blank=True,
     )
 
-    # RSVP
     confirmed_at = models.DateTimeField(
         null=True,
         blank=True,
@@ -61,6 +63,24 @@ class Guest(models.Model):
 
     class Meta:
         ordering = ["full_name"]
+
+    def save(self, *args, **kwargs):
+
+        if not self.invitation_code:
+
+            while True:
+
+                code = secrets.token_urlsafe(8)
+
+                if not Guest.objects.filter(
+                    invitation_code=code,
+                ).exists():
+
+                    self.invitation_code = code
+
+                    break
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.full_name

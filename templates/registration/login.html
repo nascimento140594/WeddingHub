@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Login | WeddingHub</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fffdf9 0%,
+                    #f8f1e8 100%
+                );
+
+            color: #4b4036;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+        }
+
+        .login-container {
+            width: min(430px, 90%);
+
+            padding: 45px 40px;
+
+            background: rgba(255, 255, 255, 0.9);
+
+            border: 1px solid #eadfd2;
+            border-radius: 20px;
+
+            box-shadow:
+                0 15px 40px rgba(82, 64, 45, 0.08);
+
+            text-align: center;
+        }
+
+        .brand {
+            margin: 0 0 10px;
+
+            color: #b89b72;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0;
+
+            color: #40352c;
+
+            font-size: 38px;
+            font-weight: 400;
+        }
+
+        .subtitle {
+            margin: 12px 0 30px;
+
+            color: #8b7b6b;
+
+            font-size: 15px;
+            font-style: italic;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+
+            text-align: left;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #5d5044;
+
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid #ded1c2;
+            border-radius: 8px;
+
+            background: #fff;
+
+            color: #40352c;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #b89b72;
+        }
+
+        .button {
+            width: 100%;
+
+            margin-top: 10px;
+
+            padding: 14px;
+
+            border: 1px solid #b89b72;
+            border-radius: 8px;
+
+            background: #b89b72;
+
+            color: white;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            letter-spacing: 1px;
+
+            cursor: pointer;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+
+        .error {
+            margin-bottom: 20px;
+
+            color: #a34b4b;
+
+            font-size: 14px;
+        }
+
+        .divider {
+            width: 60px;
+            height: 1px;
+
+            margin: 20px auto 25px;
+
+            background: #c8a97e;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <p class="brand">
+        WeddingHub
+    </p>
+
+    <h1>
+        Laura &amp; Matheus
+    </h1>
+
+    <div class="divider"></div>
+
+    <p class="subtitle">
+        Acesso ao painel dos noivos
+    </p>
+
+    {% if form.errors %}
+        <div class="error">
+            E-mail ou senha incorretos.
+        </div>
+    {% endif %}
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <div class="form-group">
+
+            <label for="id_username">
+                E-mail
+            </label>
+
+            <input
+                type="email"
+                name="username"
+                id="id_username"
+                placeholder="Digite seu e-mail"
+                autocomplete="email"
+                required
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="id_password">
+                Senha
+            </label>
+
+            <input
+                type="password"
+                name="password"
+                id="id_password"
+                placeholder="Digite sua senha"
+                autocomplete="current-password"
+                required
+            >
+
+        </div>
+
+        <input
+            type="hidden"
+            name="next"
+            value="{{ next }}"
+        >
+
+        <button
+            type="submit"
+            class="button"
+        >
+            ENTRAR
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

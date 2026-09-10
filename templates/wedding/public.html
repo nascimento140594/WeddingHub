@@ -1,0 +1,686 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {{ wedding.bride_name }} & {{ wedding.groom_name }}
+    </title>
+
+
+    <style>
+
+        /* ==================================================
+           CONFIGURAÇÕES GERAIS
+        ================================================== */
+
+        :root {
+            --primary: {{ wedding.primary_color|default:"#C8A97E" }};
+            --background: #fdfcf9;
+            --text: #3d3a36;
+            --soft-text: #77736d;
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            background: var(--background);
+            color: var(--text);
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+        }
+
+
+        /* ==================================================
+           FONTE MELINDA
+        ================================================== */
+
+        @font-face {
+            font-family: "Melinda";
+
+            src: url("/static/fonts/Melinda.ttf")
+                format("truetype");
+
+            font-weight: normal;
+            font-style: normal;
+
+            font-display: swap;
+        }
+
+
+        /* ==================================================
+           HERO
+        ================================================== */
+
+        .hero {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 60px 25px;
+        }
+
+
+        .hero-content {
+
+            width: 100%;
+
+            max-width: 800px;
+        }
+
+
+        /* ==================================================
+           FRASE INICIAL
+        ================================================== */
+
+        .intro {
+
+            font-size: 15px;
+
+            font-style: italic;
+
+            letter-spacing: 1.5px;
+
+            color: var(--soft-text);
+
+            margin-bottom: 42px;
+        }
+
+
+        /* ==================================================
+           NOMES DOS NOIVOS
+        ================================================== */
+
+        .names {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 20px;
+
+            margin: 0 0 15px;
+
+            font-family: "Melinda", cursive;
+
+            font-size: clamp(
+                65px,
+                10vw,
+                110px
+            );
+
+            font-weight: normal;
+
+            line-height: 1;
+
+            letter-spacing: 0;
+        }
+
+
+        .name {
+
+            font-family: "Melinda", cursive;
+
+            font-weight: normal;
+
+            white-space: nowrap;
+        }
+
+
+        .ampersand {
+
+            font-family: "Melinda", cursive;
+
+            color: var(--primary);
+
+            font-size: 0.65em;
+
+            font-weight: normal;
+
+            font-style: normal;
+
+            line-height: 1;
+        }
+
+
+        /* ==================================================
+           LINHA DECORATIVA
+        ================================================== */
+
+        .line {
+
+            width: 45px;
+
+            height: 1px;
+
+            background: var(--primary);
+
+            margin: 35px auto;
+        }
+
+
+        /* ==================================================
+           DATA
+        ================================================== */
+
+        .date {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            font-size: 15px;
+
+            letter-spacing: 2px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 12px;
+        }
+
+
+        /* ==================================================
+           LOCAL
+        ================================================== */
+
+        .location {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            font-size: 14px;
+
+            letter-spacing: 1px;
+
+            color: var(--soft-text);
+
+            line-height: 1.8;
+        }
+
+
+        /* ==================================================
+           MENSAGEM
+        ================================================== */
+
+        .message {
+
+            max-width: 560px;
+
+            margin: 42px auto 40px;
+
+            font-size: 18px;
+
+            line-height: 1.8;
+
+            font-style: italic;
+
+            color: #65615b;
+        }
+
+
+        /* ==================================================
+           BOTÕES
+        ================================================== */
+
+        .buttons {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 14px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .button {
+
+            display: inline-block;
+
+            min-width: 210px;
+
+            padding: 14px 24px;
+
+            border: 1px solid var(--primary);
+
+            text-decoration: none;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            font-size: 11px;
+
+            letter-spacing: 1.8px;
+
+            text-transform: uppercase;
+
+            transition: all 0.3s ease;
+        }
+
+
+        .button-primary {
+
+            background: var(--primary);
+
+            color: white;
+        }
+
+
+        .button-primary:hover {
+
+            opacity: 0.85;
+        }
+
+
+        .button-secondary {
+
+            background: transparent;
+
+            color: var(--primary);
+        }
+
+
+        .button-secondary:hover {
+
+            background: var(--primary);
+
+            color: white;
+        }
+
+
+        /* ==================================================
+           SEGUNDA SEÇÃO
+        ================================================== */
+
+        .section {
+
+            padding: 90px 25px;
+
+            text-align: center;
+
+            border-top: 1px solid #eeeae3;
+        }
+
+
+        .section-content {
+
+            max-width: 600px;
+
+            margin: auto;
+        }
+
+
+        .section-title {
+
+            font-size: 32px;
+
+            font-weight: normal;
+
+            margin-bottom: 25px;
+        }
+
+
+        .section-text {
+
+            font-size: 17px;
+
+            line-height: 1.9;
+
+            color: var(--soft-text);
+        }
+
+
+        /* ==================================================
+           RODAPÉ
+        ================================================== */
+
+        .footer {
+
+            padding: 45px 25px;
+
+            text-align: center;
+
+            border-top: 1px solid #eeeae3;
+
+            color: var(--soft-text);
+
+            font-size: 13px;
+        }
+
+
+        .footer-names {
+
+            font-size: 20px;
+
+            color: var(--text);
+
+            margin-bottom: 10px;
+        }
+
+
+        /* ==================================================
+           CELULAR
+        ================================================== */
+
+        @media (max-width: 600px) {
+
+            .hero {
+
+                padding: 50px 20px;
+            }
+
+
+            .intro {
+
+                font-size: 14px;
+
+                margin-bottom: 35px;
+            }
+
+
+            .names {
+
+                font-size: 58px;
+
+                gap: 10px;
+
+                letter-spacing: 0;
+            }
+
+
+            .ampersand {
+
+                font-size: 0.6em;
+            }
+
+
+            .date {
+
+                font-size: 13px;
+
+                letter-spacing: 1.5px;
+            }
+
+
+            .message {
+
+                font-size: 17px;
+
+                margin-top: 35px;
+            }
+
+
+            .buttons {
+
+                flex-direction: column;
+
+                align-items: center;
+            }
+
+
+            .button {
+
+                width: 100%;
+
+                max-width: 300px;
+            }
+
+
+            .section {
+
+                padding: 70px 20px;
+            }
+
+
+            .section-title {
+
+                font-size: 28px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <main>
+
+
+        <!-- ==================================================
+             ABERTURA DO CONVITE
+        ================================================== -->
+
+        <section class="hero">
+
+
+            <div class="hero-content">
+
+
+                <!-- FRASE -->
+
+                <p class="intro">
+
+                    Com amor, escolhemos caminhar juntos.
+
+                </p>
+
+
+                <!-- ==================================================
+                     NOMES
+                ================================================== -->
+
+                <h1 class="names">
+
+                    <span class="name">
+                        Laura
+                    </span>
+
+                    <span class="ampersand">
+                        &
+                    </span>
+
+                    <span class="name">
+                        Matheus
+                    </span>
+
+                </h1>
+
+
+                <!-- LINHA -->
+
+                <div class="line"></div>
+
+
+                <!-- ==================================================
+                     DATA
+                ================================================== -->
+
+                <p class="date">
+
+                    {{ wedding.wedding_date|date:"d \d\e F \d\e Y" }}
+
+                    ·
+
+                    {{ wedding.ceremony_time|time:"H:i" }}
+
+                </p>
+
+
+                <!-- ==================================================
+                     LOCAL
+                ================================================== -->
+
+                <p class="location">
+
+                    {{ wedding.ceremony_address }}
+
+                    <br>
+
+                    {{ wedding.city }} · {{ wedding.state }}
+
+                </p>
+
+
+                <!-- ==================================================
+                     MENSAGEM
+                ================================================== -->
+
+                <p class="message">
+
+                    Será uma alegria ter você conosco
+                    para celebrar este dia tão especial.
+
+                </p>
+
+
+                <!-- ==================================================
+                     BOTÕES
+                ================================================== -->
+
+                <div class="buttons">
+
+
+                    <a
+                        href="/api/guests/"
+                        class="button button-primary"
+                    >
+
+                        Confirmar presença
+
+                    </a>
+
+
+                    <a
+                        href="/api/gifts/"
+                        class="button button-secondary"
+                    >
+
+                        Lista de presentes
+
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+        <!-- ==================================================
+             SEÇÃO "NOSSO GRANDE DIA"
+        ================================================== -->
+
+        <section class="section">
+
+
+            <div class="section-content">
+
+
+                <h2 class="section-title">
+
+                    O nosso grande dia
+
+                </h2>
+
+
+                <p class="section-text">
+
+                    Mais do que uma celebração, queremos viver
+                    este momento ao lado das pessoas que fazem
+                    parte da nossa história.
+
+                </p>
+
+
+            </div>
+
+
+        </section>
+
+
+        <!-- ==================================================
+             RODAPÉ
+        ================================================== -->
+
+        <footer class="footer">
+
+
+            <p class="footer-names">
+
+                Laura & Matheus
+
+            </p>
+
+
+            {% if wedding.instagram_hashtag %}
+
+                <p>
+
+                    {{ wedding.instagram_hashtag }}
+
+                </p>
+
+            {% endif %}
+
+
+            <p>
+
+                Com carinho.
+
+            </p>
+
+
+        </footer>
+
+
+    </main>
+
+
+</body>
+
+</html>

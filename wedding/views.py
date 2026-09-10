@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
@@ -23,4 +23,23 @@ class WeddingDetailView(generics.RetrieveUpdateAPIView):
         return get_object_or_404(
             Wedding,
             owner=self.request.user,
+        )
+
+
+class PublicWeddingView(generics.GenericAPIView):
+    permission_classes = []
+
+    def get(self, request, slug):
+        wedding = get_object_or_404(
+            Wedding,
+            slug=slug,
+            is_public=True,
+        )
+
+        return render(
+            request,
+            "wedding/public.html",
+            {
+                "wedding": wedding,
+            },
         )

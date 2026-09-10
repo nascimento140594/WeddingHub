@@ -1,6 +1,9 @@
 from decimal import Decimal
 
-from django.db.models import Count, Sum
+from django.db.models import Sum
+from django.shortcuts import render
+
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -75,4 +78,62 @@ class DashboardView(APIView):
                 "amount_received": amount,
                 "messages": messages,
             }
+        )
+
+
+class DashboardPageView(APIView):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        wedding = request.user.wedding
+
+        total_guests = Guest.objects.filter(
+            wedding=wedding,
+        ).count()
+
+        confirmed = Guest.objects.filter(
+            wedding=wedding,
+            status=Guest.Status.CONFIRMED,
+        ).count()
+
+        declined = Guest.objects.filter(
+            wedding=wedding,
+            status=Guest.Status.DECLINED,
+        ).count()
+
+        pending = Guest.objects.filter(
+            wedding=wedding,
+            status=Guest.Status.PENDING,
+        ).count()
+
+        total_gifts = Gift.objects.filter(
+            wedding=wedding,
+        ).count()
+
+        total_payments = Payment.objects.filter(
+            gift__wedding=wedding,
+        ).count()
+
+        messages = GuestMessage.objects.filter(
+            wedding=wedding,
+        ).count()
+
+        dashboard = {
+            "total_guests": total_guests,
+            "confirmed_guests": confirmed,
+            "declined_guests": declined,
+            "pending_guests": pending,
+            "total_gifts": total_gifts,
+            "total_payments": total_payments,
+            "messages": messages,
+        }
+
+        return render(
+            request,
+            "analytics/dashboard.html",
+            {
+                "wedding": wedding,
+                "dashboard": dashboard,
+            },
         )

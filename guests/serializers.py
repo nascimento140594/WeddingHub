@@ -11,5 +11,6 @@ class GuestSerializer(serializers.ModelSerializer):
             "id",
             "created_at",
             "wedding",
+            "invitation_code",
             "confirmed_at",
         )

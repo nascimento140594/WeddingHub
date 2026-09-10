@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Presença confirmada | {{ wedding.bride_name }} & {{ wedding.groom_name }}
+    </title>
+
+
+    <style>
+
+        @font-face {
+            font-family: "Melinda";
+            src: url("/static/fonts/Melinda.ttf") format("truetype");
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+
+        :root {
+            --primary: {{ wedding.primary_color|default:"#C8A97E" }};
+            --background: #fdfcf9;
+            --text: #3d3a36;
+            --soft-text: #77736d;
+            --border: #e7e1d8;
+        }
+
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                radial-gradient(
+                    circle at top,
+                    #ffffff 0%,
+                    var(--background) 70%
+                );
+
+            color: var(--text);
+
+            padding: 25px;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+        }
+
+
+        .container {
+
+            width: 100%;
+
+            max-width: 650px;
+
+            text-align: center;
+        }
+
+
+        /* ==================================================
+           NOMES
+        ================================================== */
+
+        .names {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 15px;
+
+            color: var(--text);
+
+            font-family:
+                "Melinda",
+                "Brush Script MT",
+                cursive;
+
+            font-size: clamp(
+                60px,
+                12vw,
+                100px
+            );
+
+            font-weight: normal;
+
+            line-height: 1;
+
+            margin-bottom: 25px;
+        }
+
+
+        .ampersand {
+
+            color: var(--primary);
+
+            font-family:
+                "Melinda",
+                cursive;
+        }
+
+
+        /* ==================================================
+           DETALHE
+        ================================================== */
+
+        .line {
+
+            width: 50px;
+
+            height: 1px;
+
+            background: var(--primary);
+
+            margin: 0 auto 35px;
+        }
+
+
+        /* ==================================================
+           ÍCONE
+        ================================================== */
+
+        .heart {
+
+            width: 65px;
+
+            height: 65px;
+
+            margin: 0 auto 25px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border: 1px solid var(--primary);
+
+            border-radius: 50%;
+
+            color: var(--primary);
+
+            font-size: 28px;
+        }
+
+
+        /* ==================================================
+           MENSAGEM
+        ================================================== */
+
+        .title {
+
+            font-size: 30px;
+
+            font-weight: normal;
+
+            margin-bottom: 15px;
+        }
+
+
+        .message {
+
+            max-width: 500px;
+
+            margin: 0 auto;
+
+            color: var(--soft-text);
+
+            font-size: 17px;
+
+            line-height: 1.8;
+        }
+
+
+        /* ==================================================
+           DADOS
+        ================================================== */
+
+        .guest {
+
+            margin-top: 30px;
+
+            padding: 20px;
+
+            border-top: 1px solid var(--border);
+
+            border-bottom: 1px solid var(--border);
+        }
+
+
+        .guest-name {
+
+            font-size: 20px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .guest-status {
+
+            color: var(--primary);
+
+            font-size: 13px;
+
+            letter-spacing: 1px;
+
+            text-transform: uppercase;
+        }
+
+
+        /* ==================================================
+           DATA
+        ================================================== */
+
+        .date {
+
+            margin-top: 35px;
+
+            color: var(--soft-text);
+
+            font-size: 14px;
+
+            letter-spacing: 1px;
+        }
+
+
+        /* ==================================================
+           VOLTAR
+        ================================================== */
+
+        .back {
+
+            display: inline-block;
+
+            margin-top: 30px;
+
+            padding: 13px 25px;
+
+            border: 1px solid var(--primary);
+
+            color: var(--primary);
+
+            text-decoration: none;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            font-size: 11px;
+
+            letter-spacing: 1.5px;
+
+            text-transform: uppercase;
+
+            transition: all 0.2s ease;
+        }
+
+
+        .back:hover {
+
+            background: var(--primary);
+
+            color: white;
+        }
+
+
+        /* ==================================================
+           CELULAR
+        ================================================== */
+
+        @media (max-width: 600px) {
+
+            body {
+
+                padding: 20px;
+            }
+
+
+            .names {
+
+                font-size: 58px;
+
+                gap: 8px;
+            }
+
+
+            .title {
+
+                font-size: 26px;
+            }
+
+
+            .message {
+
+                font-size: 16px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <main class="container">
+
+
+        <h1 class="names">
+
+            {{ wedding.bride_name }}
+
+            <span class="ampersand">
+                &
+            </span>
+
+            {{ wedding.groom_name }}
+
+        </h1>
+
+
+        <div class="line"></div>
+
+
+        <div class="heart">
+
+            ♥️
+
+        </div>
+
+
+        {% if guest.status == "CONFIRMED" %}
+
+
+            <h2 class="title">
+
+                Presença confirmada!
+
+            </h2>
+
+
+            <p class="message">
+
+                Que alegria saber que você estará conosco
+                nesse momento tão especial.
+
+                <br>
+
+                Estamos muito felizes em poder
+                celebrar esse dia ao seu lado.
+
+            </p>
+
+
+            <div class="guest">
+
+                <p class="guest-name">
+
+                    {{ guest.full_name }}
+
+                </p>
+
+
+                <p class="guest-status">
+
+                    Presença confirmada
+
+                </p>
+
+            </div>
+
+
+        {% elif guest.status == "DECLINED" %}
+
+
+            <h2 class="title">
+
+                Sentiremos sua falta.
+
+            </h2>
+
+
+            <p class="message">
+
+                Agradecemos muito por nos avisar.
+
+                <br>
+
+                Mesmo não podendo estar presente,
+                você estará em nossos pensamentos
+                nesse dia tão especial.
+
+            </p>
+
+
+            <div class="guest">
+
+                <p class="guest-name">
+
+                    {{ guest.full_name }}
+
+                </p>
+
+
+                <p class="guest-status">
+
+                    Presença recusada
+
+                </p>
+
+            </div>
+
+
+        {% endif %}
+
+
+        <p class="date">
+
+            {{ wedding.wedding_date|date:"d/m/Y" }}
+
+            ·
+
+            {{ wedding.city }} - {{ wedding.state }}
+
+        </p>
+
+
+        <a
+            href="/api/wedding/public/{{ wedding.slug }}/"
+            class="back"
+        >
+
+            Voltar ao convite
+
+        </a>
+
+
+    </main>
+
+
+</body>
+
+</html>

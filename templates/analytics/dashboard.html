@@ -1,0 +1,532 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | WeddingHub</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fffdf9 0%,
+                    #f8f1e8 100%
+                );
+
+            color: #4b4036;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+        }
+
+        .container {
+            width: min(1180px, 92%);
+            margin: 0 auto;
+            padding: 45px 0 60px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .brand {
+            margin: 0 0 8px;
+
+            color: #b89b72;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .title {
+            margin: 0;
+
+            color: #40352c;
+
+            font-size: clamp(38px, 6vw, 62px);
+            font-weight: 400;
+
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            margin: 14px 0 0;
+
+            color: #8b7b6b;
+
+            font-size: 16px;
+            font-style: italic;
+        }
+
+        .divider {
+            width: 70px;
+            height: 1px;
+
+            margin: 22px auto 0;
+
+            background: #c8a97e;
+        }
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 18px;
+
+            margin-bottom: 25px;
+        }
+
+        .card {
+            padding: 28px 20px;
+
+            background: rgba(255, 255, 255, 0.85);
+
+            border: 1px solid #eadfd2;
+            border-radius: 18px;
+
+            text-align: center;
+
+            box-shadow:
+                0 10px 30px rgba(82, 64, 45, 0.06);
+        }
+
+        .card-label {
+            margin-bottom: 10px;
+
+            color: #9a8977;
+
+            font-size: 12px;
+            font-weight: 600;
+
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .card-value {
+            color: #4b4036;
+
+            font-size: 42px;
+            font-weight: 400;
+
+            line-height: 1;
+        }
+
+        .card-description {
+            margin-top: 10px;
+
+            color: #a49484;
+
+            font-size: 13px;
+        }
+
+        .main-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 18px;
+        }
+
+        .panel {
+            min-height: 180px;
+
+            padding: 28px;
+
+            background: rgba(255, 255, 255, 0.85);
+
+            border: 1px solid #eadfd2;
+            border-radius: 18px;
+
+            box-shadow:
+                0 10px 30px rgba(82, 64, 45, 0.06);
+        }
+
+        .panel-title {
+            margin: 0 0 10px;
+
+            color: #4b4036;
+
+            font-size: 22px;
+            font-weight: 400;
+        }
+
+        .panel-text {
+            margin: 0;
+
+            color: #8b7b6b;
+
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .panel-number {
+            margin-top: 18px;
+
+            color: #b89b72;
+
+            font-size: 32px;
+        }
+
+        .quick-actions {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 18px;
+
+            margin-top: 25px;
+        }
+
+        .action {
+            display: block;
+
+            padding: 22px;
+
+            background: rgba(255, 255, 255, 0.85);
+
+            border: 1px solid #eadfd2;
+            border-radius: 18px;
+
+            color: #4b4036;
+
+            text-decoration: none;
+
+            box-shadow:
+                0 10px 30px rgba(82, 64, 45, 0.06);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .action:hover {
+            color: #4b4036;
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 14px 35px rgba(82, 64, 45, 0.10);
+        }
+
+        .action-title {
+            margin: 0 0 7px;
+
+            color: #4b4036;
+
+            font-size: 19px;
+            font-weight: 400;
+        }
+
+        .action-text {
+            margin: 0;
+
+            color: #8b7b6b;
+
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .action-icon {
+            margin-bottom: 10px;
+
+            color: #b89b72;
+
+            font-size: 25px;
+        }
+
+        .footer {
+            margin-top: 45px;
+
+            color: #a49484;
+
+            text-align: center;
+
+            font-size: 13px;
+        }
+
+        @media (max-width: 900px) {
+            .cards {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .main-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .quick-actions {
+                grid-template-columns:
+                    1fr;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .container {
+                padding-top: 30px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 24px 18px;
+            }
+
+            .card-value {
+                font-size: 36px;
+            }
+
+            .panel {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header class="header">
+
+        <p class="brand">
+            WeddingHub
+        </p>
+
+        <h1 class="title">
+            Laura &amp; Matheus
+        </h1>
+
+        <p class="subtitle">
+            Painel dos noivos
+        </p>
+
+        <div class="divider"></div>
+
+    </header>
+
+
+    <section class="cards">
+
+        <div class="card">
+
+            <div class="card-label">
+                Convidados
+            </div>
+
+            <div class="card-value">
+                {{ dashboard.total_guests }}
+            </div>
+
+            <div class="card-description">
+                Total cadastrado
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-label">
+                Confirmados
+            </div>
+
+            <div class="card-value">
+                {{ dashboard.confirmed_guests }}
+            </div>
+
+            <div class="card-description">
+                Presenças confirmadas
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-label">
+                Pendentes
+            </div>
+
+            <div class="card-value">
+                {{ dashboard.pending_guests }}
+            </div>
+
+            <div class="card-description">
+                Aguardando resposta
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-label">
+                Recusados
+            </div>
+
+            <div class="card-value">
+                {{ dashboard.declined_guests }}
+            </div>
+
+            <div class="card-description">
+                Convites recusados
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="main-grid">
+
+        <div class="panel">
+
+            <h2 class="panel-title">
+                Lista de presentes
+            </h2>
+
+            <p class="panel-text">
+                Presentes cadastrados e reservas realizadas.
+            </p>
+
+            <div class="panel-number">
+                {{ dashboard.total_gifts }}
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <h2 class="panel-title">
+                Pagamentos
+            </h2>
+
+            <p class="panel-text">
+                Total de pagamentos registrados no sistema.
+            </p>
+
+            <div class="panel-number">
+                {{ dashboard.total_payments }}
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <h2 class="panel-title">
+                Mensagens
+            </h2>
+
+            <p class="panel-text">
+                Mensagens enviadas pelos convidados.
+            </p>
+
+            <div class="panel-number">
+                {{ dashboard.messages }}
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="quick-actions">
+
+        <a
+            class="action"
+            href="/api/guests/page/"
+        >
+
+            <div class="action-icon">
+                ♡
+            </div>
+
+            <h2 class="action-title">
+                Convidados
+            </h2>
+
+            <p class="action-text">
+                Acessar a área de convidados e acompanhar as confirmações.
+            </p>
+
+        </a>
+
+
+        <a
+            class="action"
+            href="#"
+        >
+
+            <div class="action-icon">
+                ♡
+            </div>
+
+            <h2 class="action-title">
+                Lista de presentes
+            </h2>
+
+            <p class="action-text">
+                Gerenciar os presentes escolhidos pelos convidados.
+            </p>
+
+        </a>
+
+
+        <a
+            class="action"
+            href="#"
+        >
+
+            <div class="action-icon">
+                ♡
+            </div>
+
+            <h2 class="action-title">
+                Mensagens
+            </h2>
+
+            <p class="action-text">
+                Visualizar as mensagens enviadas pelos convidados.
+            </p>
+
+        </a>
+
+    </section>
+
+
+    <footer class="footer">
+
+        WeddingHub · Laura &amp; Matheus
+
+    </footer>
+
+</div>
+
+</body>
+</html>
