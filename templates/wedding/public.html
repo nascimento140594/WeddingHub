@@ -12,22 +12,24 @@
         content="width=device-width, initial-scale=1.0"
     >
 
+    <meta
+        name="description"
+        content="Informações do casamento e lista de presentes."
+    >
+
     <title>
         {{ wedding.bride_name }} & {{ wedding.groom_name }}
     </title>
 
-
     <style>
-
-        /* ==================================================
-           CONFIGURAÇÕES GERAIS
-        ================================================== */
 
         :root {
             --primary: {{ wedding.primary_color|default:"#C8A97E" }};
             --background: #fdfcf9;
             --text: #3d3a36;
             --soft-text: #77736d;
+            --card: rgba(255, 255, 255, 0.92);
+            --border: #eeeae3;
         }
 
 
@@ -44,7 +46,18 @@
 
 
         body {
-            background: var(--background);
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #f8f0e8,
+                    transparent 35%
+                ),
+                linear-gradient(
+                    180deg,
+                    #fffdf9 0%,
+                    #f7f0e8 100%
+                );
+
             color: var(--text);
 
             font-family:
@@ -54,26 +67,26 @@
         }
 
 
-        /* ==================================================
+        /* --------------------------------------------------
            FONTE MELINDA
-        ================================================== */
+        -------------------------------------------------- */
 
         @font-face {
             font-family: "Melinda";
 
-            src: url("/static/fonts/Melinda.ttf")
+            src:
+                url("/static/fonts/Melinda.ttf")
                 format("truetype");
 
             font-weight: normal;
             font-style: normal;
-
             font-display: swap;
         }
 
 
-        /* ==================================================
+        /* --------------------------------------------------
            HERO
-        ================================================== */
+        -------------------------------------------------- */
 
         .hero {
 
@@ -95,31 +108,29 @@
 
             width: 100%;
 
-            max-width: 800px;
+            max-width: 900px;
+
+            margin: auto;
         }
 
 
-        /* ==================================================
-           FRASE INICIAL
-        ================================================== */
-
         .intro {
+
+            margin-bottom: 42px;
+
+            color: var(--soft-text);
 
             font-size: 15px;
 
             font-style: italic;
 
             letter-spacing: 1.5px;
-
-            color: var(--soft-text);
-
-            margin-bottom: 42px;
         }
 
 
-        /* ==================================================
-           NOMES DOS NOIVOS
-        ================================================== */
+        /* --------------------------------------------------
+           NOMES
+        -------------------------------------------------- */
 
         .names {
 
@@ -169,15 +180,13 @@
 
             font-weight: normal;
 
-            font-style: normal;
-
             line-height: 1;
         }
 
 
-        /* ==================================================
-           LINHA DECORATIVA
-        ================================================== */
+        /* --------------------------------------------------
+           DECORATION
+        -------------------------------------------------- */
 
         .line {
 
@@ -185,17 +194,15 @@
 
             height: 1px;
 
-            background: var(--primary);
-
             margin: 35px auto;
+
+            background: var(--primary);
         }
 
 
-        /* ==================================================
-           DATA
-        ================================================== */
-
         .date {
+
+            margin-bottom: 12px;
 
             font-family:
                 Arial,
@@ -207,16 +214,12 @@
             letter-spacing: 2px;
 
             text-transform: uppercase;
-
-            margin-bottom: 12px;
         }
 
 
-        /* ==================================================
-           LOCAL
-        ================================================== */
-
         .location {
+
+            color: var(--soft-text);
 
             font-family:
                 Arial,
@@ -227,15 +230,9 @@
 
             letter-spacing: 1px;
 
-            color: var(--soft-text);
-
             line-height: 1.8;
         }
 
-
-        /* ==================================================
-           MENSAGEM
-        ================================================== */
 
         .message {
 
@@ -243,19 +240,19 @@
 
             margin: 42px auto 40px;
 
+            color: #65615b;
+
             font-size: 18px;
 
             line-height: 1.8;
 
             font-style: italic;
-
-            color: #65615b;
         }
 
 
-        /* ==================================================
+        /* --------------------------------------------------
            BOTÕES
-        ================================================== */
+        -------------------------------------------------- */
 
         .buttons {
 
@@ -279,6 +276,8 @@
 
             border: 1px solid var(--primary);
 
+            color: var(--primary);
+
             text-decoration: none;
 
             font-family:
@@ -292,7 +291,8 @@
 
             text-transform: uppercase;
 
-            transition: all 0.3s ease;
+            transition:
+                all 0.3s ease;
         }
 
 
@@ -310,14 +310,6 @@
         }
 
 
-        .button-secondary {
-
-            background: transparent;
-
-            color: var(--primary);
-        }
-
-
         .button-secondary:hover {
 
             background: var(--primary);
@@ -326,23 +318,23 @@
         }
 
 
-        /* ==================================================
-           SEGUNDA SEÇÃO
-        ================================================== */
+        /* --------------------------------------------------
+           SEÇÕES
+        -------------------------------------------------- */
 
         .section {
 
             padding: 90px 25px;
 
-            text-align: center;
+            border-top: 1px solid var(--border);
 
-            border-top: 1px solid #eeeae3;
+            text-align: center;
         }
 
 
         .section-content {
 
-            max-width: 600px;
+            max-width: 900px;
 
             margin: auto;
         }
@@ -350,37 +342,302 @@
 
         .section-title {
 
-            font-size: 32px;
+            margin-bottom: 36px;
+        }
+
+
+        .section-title h2 {
+
+            margin-bottom: 12px;
+
+            color: var(--text);
+
+            font-size: 34px;
 
             font-weight: normal;
-
-            margin-bottom: 25px;
         }
 
 
-        .section-text {
-
-            font-size: 17px;
-
-            line-height: 1.9;
+        .section-title p {
 
             color: var(--soft-text);
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            font-size: 15px;
+
+            line-height: 1.7;
         }
 
 
-        /* ==================================================
+        /* --------------------------------------------------
+           INFORMAÇÕES
+        -------------------------------------------------- */
+
+        .info-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(220px, 1fr)
+                );
+
+            gap: 20px;
+
+            text-align: left;
+        }
+
+
+        .info-card {
+
+            padding: 25px;
+
+            background: var(--card);
+
+            border: 1px solid #eadfd2;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 12px 35px
+                rgba(82, 64, 45, 0.06);
+        }
+
+
+        .info-card h3 {
+
+            margin-bottom: 12px;
+
+            color: var(--text);
+
+            font-size: 21px;
+
+            font-weight: normal;
+        }
+
+
+        .info-card p {
+
+            color: var(--soft-text);
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+
+        /* --------------------------------------------------
+           PRESENTES
+        -------------------------------------------------- */
+
+        .gift-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(260px, 1fr)
+                );
+
+            gap: 22px;
+
+            text-align: left;
+        }
+
+
+        .gift-card {
+
+            padding: 24px;
+
+            background: var(--card);
+
+            border: 1px solid #eadfd2;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 12px 35px
+                rgba(82, 64, 45, 0.06);
+        }
+
+
+        .gift-image {
+
+            width: 100%;
+
+            height: 190px;
+
+            object-fit: cover;
+
+            margin-bottom: 18px;
+
+            border-radius: 15px;
+        }
+
+
+        .gift-card h3 {
+
+            margin-bottom: 10px;
+
+            color: var(--text);
+
+            font-size: 21px;
+
+            font-weight: normal;
+        }
+
+
+        .gift-card p {
+
+            color: var(--soft-text);
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+
+        .price {
+
+            margin: 15px 0;
+
+            color: var(--primary);
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            font-size: 23px;
+
+            font-weight: 700;
+        }
+
+
+        .gift-form {
+
+            display: grid;
+
+            gap: 10px;
+
+            margin-top: 18px;
+        }
+
+
+        input {
+
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid #ddd2cd;
+
+            border-radius: 12px;
+
+            outline: none;
+
+            font:
+                15px
+                Arial,
+                Helvetica,
+                sans-serif;
+        }
+
+
+        input:focus {
+
+            border-color: var(--primary);
+        }
+
+
+        .gift-form button {
+
+            border: 0;
+
+            border-radius: 12px;
+
+            padding: 14px 18px;
+
+            background: var(--primary);
+
+            color: white;
+
+            cursor: pointer;
+
+            font:
+                700 15px
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            transition: opacity 0.2s ease;
+        }
+
+
+        .gift-form button:hover {
+
+            opacity: 0.85;
+        }
+
+
+        .gift-form button:disabled {
+
+            opacity: 0.6;
+
+            cursor: wait;
+        }
+
+
+        .message-error {
+
+            min-height: 22px;
+
+            margin-top: 5px;
+
+            color: #9a2e2e;
+
+            font:
+                14px
+                Arial,
+                Helvetica,
+                sans-serif;
+        }
+
+
+        /* --------------------------------------------------
            RODAPÉ
-        ================================================== */
+        -------------------------------------------------- */
 
         .footer {
 
-            padding: 45px 25px;
+            padding: 45px 25px 65px;
+
+            border-top: 1px solid var(--border);
+
+            color: var(--soft-text);
 
             text-align: center;
 
-            border-top: 1px solid #eeeae3;
-
-            color: var(--soft-text);
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
 
             font-size: 13px;
         }
@@ -388,17 +645,22 @@
 
         .footer-names {
 
-            font-size: 20px;
+            margin-bottom: 10px;
 
             color: var(--text);
 
-            margin-bottom: 10px;
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 20px;
         }
 
 
-        /* ==================================================
+        /* --------------------------------------------------
            CELULAR
-        ================================================== */
+        -------------------------------------------------- */
 
         @media (max-width: 600px) {
 
@@ -410,19 +672,17 @@
 
             .intro {
 
-                font-size: 14px;
-
                 margin-bottom: 35px;
+
+                font-size: 14px;
             }
 
 
             .names {
 
-                font-size: 58px;
-
                 gap: 10px;
 
-                letter-spacing: 0;
+                font-size: 58px;
             }
 
 
@@ -442,9 +702,9 @@
 
             .message {
 
-                font-size: 17px;
-
                 margin-top: 35px;
+
+                font-size: 17px;
             }
 
 
@@ -470,11 +730,10 @@
             }
 
 
-            .section-title {
+            .section-title h2 {
 
                 font-size: 28px;
             }
-
         }
 
     </style>
@@ -485,200 +744,457 @@
 <body>
 
 
-    <main>
+<main>
 
 
-        <!-- ==================================================
-             ABERTURA DO CONVITE
-        ================================================== -->
+    <!-- ==================================================
+         ABERTURA
+    ================================================== -->
 
-        <section class="hero">
+    <section class="hero">
 
-
-            <div class="hero-content">
-
-
-                <!-- FRASE -->
-
-                <p class="intro">
-
-                    Com amor, escolhemos caminhar juntos.
-
-                </p>
+        <div class="hero-content">
 
 
-                <!-- ==================================================
-                     NOMES
-                ================================================== -->
+            <p class="intro">
 
-                <h1 class="names">
+                Com amor, escolhemos caminhar juntos.
 
-                    <span class="name">
-                        Laura
-                    </span>
-
-                    <span class="ampersand">
-                        &
-                    </span>
-
-                    <span class="name">
-                        Matheus
-                    </span>
-
-                </h1>
+            </p>
 
 
-                <!-- LINHA -->
+            <h1 class="names">
 
-                <div class="line"></div>
+                <span class="name">
+                    {{ wedding.bride_name }}
+                </span>
 
+                <span class="ampersand">
+                    &
+                </span>
 
-                <!-- ==================================================
-                     DATA
-                ================================================== -->
+                <span class="name">
+                    {{ wedding.groom_name }}
+                </span>
 
-                <p class="date">
-
-                    {{ wedding.wedding_date|date:"d \d\e F \d\e Y" }}
-
-                    ·
-
-                    {{ wedding.ceremony_time|time:"H:i" }}
-
-                </p>
+            </h1>
 
 
-                <!-- ==================================================
-                     LOCAL
-                ================================================== -->
-
-                <p class="location">
-
-                    {{ wedding.ceremony_address }}
-
-                    <br>
-
-                    {{ wedding.city }} · {{ wedding.state }}
-
-                </p>
+            <div class="line"></div>
 
 
-                <!-- ==================================================
-                     MENSAGEM
-                ================================================== -->
+            <p class="date">
 
-                <p class="message">
+                {{ wedding.wedding_date|date:"d \d\e F \d\e Y" }}
 
-                    Será uma alegria ter você conosco
-                    para celebrar este dia tão especial.
+                ·
 
-                </p>
+                {{ wedding.ceremony_time|time:"H:i" }}
 
-
-                <!-- ==================================================
-                     BOTÕES
-                ================================================== -->
-
-                <div class="buttons">
+            </p>
 
 
-                    <a
-                        href="/api/guests/"
-                        class="button button-primary"
-                    >
+            <p class="location">
 
-                        Confirmar presença
+                {{ wedding.ceremony_address }}
 
-                    </a>
+                <br>
 
+                {{ wedding.city }} · {{ wedding.state }}
 
-                    <a
-                        href="/api/gifts/"
-                        class="button button-secondary"
-                    >
-
-                        Lista de presentes
-
-                    </a>
+            </p>
 
 
-                </div>
+            <p class="message">
 
+                Será uma alegria ter você conosco
+                para celebrar este dia tão especial.
+
+            </p>
+
+
+            <div class="buttons">
+
+                <a
+                    href="#presentes"
+                    class="button button-primary"
+                >
+
+                    Lista de presentes
+
+                </a>
+
+
+                <a
+                    href="/api/guests/"
+                    class="button button-secondary"
+                >
+
+                    Confirmar presença
+
+                </a>
 
             </div>
 
 
-        </section>
+        </div>
+
+    </section>
 
 
-        <!-- ==================================================
-             SEÇÃO "NOSSO GRANDE DIA"
-        ================================================== -->
+    <!-- ==================================================
+         O GRANDE DIA
+    ================================================== -->
 
-        <section class="section">
+    <section class="section">
+
+        <div class="section-content">
 
 
-            <div class="section-content">
+            <div class="section-title">
 
-
-                <h2 class="section-title">
-
+                <h2>
                     O nosso grande dia
-
                 </h2>
 
-
-                <p class="section-text">
-
-                    Mais do que uma celebração, queremos viver
-                    este momento ao lado das pessoas que fazem
-                    parte da nossa história.
-
+                <p>
+                    {{ wedding.about|default:"Mais do que uma celebração, queremos viver este momento ao lado das pessoas que fazem parte da nossa história." }}
                 </p>
+
+            </div>
+
+
+            <div class="info-grid">
+
+
+                <article class="info-card">
+
+                    <h3>
+                        Cerimônia
+                    </h3>
+
+                    <p>
+                        {{ wedding.ceremony_address }}
+                    </p>
+
+                </article>
+
+
+                <article class="info-card">
+
+                    <h3>
+                        Recepção
+                    </h3>
+
+                    <p>
+                        {{ wedding.reception_address|default:"Em breve compartilharemos os detalhes." }}
+                    </p>
+
+                </article>
+
+
+                <article class="info-card">
+
+                    <h3>
+                        Local
+                    </h3>
+
+                    <p>
+                        {{ wedding.city }} -
+                        {{ wedding.state }}
+                    </p>
+
+                </article>
 
 
             </div>
 
 
-        </section>
+        </div>
+
+    </section>
 
 
-        <!-- ==================================================
-             RODAPÉ
-        ================================================== -->
+    <!-- ==================================================
+         LISTA DE PRESENTES
+    ================================================== -->
 
-        <footer class="footer">
+    <section
+        class="section"
+        id="presentes"
+    >
 
-
-            <p class="footer-names">
-
-                Laura & Matheus
-
-            </p>
+        <div class="section-content">
 
 
-            {% if wedding.instagram_hashtag %}
+            <div class="section-title">
+
+                <h2>
+                    Lista de presentes
+                </h2>
 
                 <p>
-
-                    {{ wedding.instagram_hashtag }}
-
+                    Escolha um presente e conclua o pagamento
+                    com segurança pelo Mercado Pago.
                 </p>
 
-            {% endif %}
+            </div>
 
 
-            <p>
-
-                Com carinho.
-
-            </p>
+            <div class="gift-grid">
 
 
-        </footer>
+                {% for gift in gifts %}
 
 
-    </main>
+                    <article class="gift-card">
+
+
+                        {% if gift.image %}
+
+                            <img
+                                class="gift-image"
+                                src="{{ gift.image.url }}"
+                                alt="{{ gift.name }}"
+                            >
+
+                        {% endif %}
+
+
+                        <h3>
+                            {{ gift.name }}
+                        </h3>
+
+
+                        {% if gift.description %}
+
+                            <p>
+                                {{ gift.description }}
+                            </p>
+
+                        {% endif %}
+
+
+                        <div class="price">
+
+                            R$
+                            {{ gift.price|floatformat:2 }}
+
+                        </div>
+
+
+                        <form
+                            class="gift-form"
+                            data-gift-id="{{ gift.id }}"
+                        >
+
+
+                            <input
+                                name="guest_name"
+                                type="text"
+                                placeholder="Seu nome"
+                                required
+                            >
+
+
+                            <input
+                                name="guest_email"
+                                type="email"
+                                placeholder="Seu e-mail"
+                                required
+                            >
+
+
+                            <button type="submit">
+
+                                Presentear
+
+                            </button>
+
+
+                            <div class="message-error"></div>
+
+
+                        </form>
+
+
+                    </article>
+
+
+                {% empty %}
+
+
+                    <article class="gift-card">
+
+                        <h3>
+                            Em breve
+                        </h3>
+
+                        <p>
+                            A lista de presentes ainda está
+                            sendo preparada.
+                        </p>
+
+                    </article>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<!-- ==================================================
+     RODAPÉ
+================================================== -->
+
+<footer class="footer">
+
+
+    <p class="footer-names">
+
+        {{ wedding.bride_name }}
+        &
+        {{ wedding.groom_name }}
+
+    </p>
+
+
+    {% if wedding.instagram_hashtag %}
+
+        <p>
+
+            {{ wedding.instagram_hashtag }}
+
+        </p>
+
+    {% endif %}
+
+
+    <p>
+
+        Com carinho.
+
+    </p>
+
+
+</footer>
+
+
+<script>
+
+    document
+        .querySelectorAll(".gift-form")
+        .forEach((form) => {
+
+            form.addEventListener(
+                "submit",
+                async (event) => {
+
+                    event.preventDefault();
+
+
+                    const button =
+                        form.querySelector("button");
+
+
+                    const message =
+                        form.querySelector(
+                            ".message-error"
+                        );
+
+
+                    const data =
+                        new FormData(form);
+
+
+                    button.disabled = true;
+
+                    message.textContent =
+                        "Preparando seu pagamento...";
+
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                "/api/payments/checkout/",
+                                {
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json",
+                                    },
+
+                                    body:
+                                        JSON.stringify({
+                                            gift:
+                                                Number(
+                                                    form.dataset.giftId
+                                                ),
+
+                                            guest_name:
+                                                data.get(
+                                                    "guest_name"
+                                                ),
+
+                                            guest_email:
+                                                data.get(
+                                                    "guest_email"
+                                                ),
+                                        }),
+                                }
+                            );
+
+
+                        const result =
+                            await response.json();
+
+
+                        if (!response.ok) {
+
+                            throw new Error(
+                                result.detail ||
+                                "Não foi possível iniciar o pagamento."
+                            );
+                        }
+
+
+                        if (!result.checkout_url) {
+
+                            throw new Error(
+                                "O Mercado Pago não retornou o link de pagamento."
+                            );
+                        }
+
+
+                        window.location.href =
+                            result.checkout_url;
+
+
+                    } catch (error) {
+
+                        message.textContent =
+                            error.message;
+
+                        button.disabled = false;
+                    }
+
+                }
+            );
+
+        });
+
+</script>
 
 
 </body>

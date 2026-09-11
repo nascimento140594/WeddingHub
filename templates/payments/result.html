@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            display: grid;
+            place-items: center;
+            background: #fbf6f2;
+            color: #332b2b;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+        main {
+            width: min(680px, calc(100% - 32px));
+            padding: 48px 28px;
+            text-align: center;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(70, 45, 35, 0.12);
+        }
+        h1 { font-size: 42px; font-weight: 400; }
+        p {
+            color: #766b6b;
+            font: 16px/1.6 Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>{{ title }}</h1>
+        <p>{{ message }}</p>
+    </main>
+</body>
+</html>

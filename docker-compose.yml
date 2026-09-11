@@ -34,8 +34,8 @@ services:
     ports:
       - "8000:8000"
 
-    depends_on:
-      - db
+    env_file:
+      - .env
 
     environment:
       DB_NAME: weddinghub
@@ -43,6 +43,9 @@ services:
       DB_PASSWORD: 123456
       DB_HOST: db
       DB_PORT: 5432
+
+    depends_on:
+      - db
 
 volumes:
   postgres_data:

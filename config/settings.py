@@ -292,6 +292,31 @@ LOGOUT_REDIRECT_URL = "/login/"
 
 
 # -----------------------------------------------------------------------------
+# MERCADO PAGO
+# -----------------------------------------------------------------------------
+
+MERCADO_PAGO_ACCESS_TOKEN = os.getenv(
+    "MERCADO_PAGO_ACCESS_TOKEN",
+    "",
+)
+
+MERCADO_PAGO_WEBHOOK_SECRET = os.getenv(
+    "MERCADO_PAGO_WEBHOOK_SECRET",
+    "",
+)
+
+MERCADO_PAGO_NOTIFICATION_URL = os.getenv(
+    "MERCADO_PAGO_NOTIFICATION_URL",
+    "",
+)
+
+PUBLIC_BASE_URL = os.getenv(
+    "PUBLIC_BASE_URL",
+    "",
+).rstrip("/")
+
+
+# -----------------------------------------------------------------------------
 # PRODUCTION SECURITY
 # -----------------------------------------------------------------------------
 
