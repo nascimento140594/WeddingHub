@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>{{ title }} | WeddingHub</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fffdf9 0%,
+                    #f8f1e8 100%
+                );
+
+            color: #4b4036;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+        }
+
+        .container {
+            width: min(760px, 92%);
+
+            margin: 0 auto;
+
+            padding: 40px 0 60px;
+        }
+
+        .header {
+            margin-bottom: 35px;
+
+            text-align: center;
+        }
+
+        .brand {
+            margin: 0 0 8px;
+
+            color: #b89b72;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            letter-spacing: 4px;
+
+            text-transform: uppercase;
+        }
+
+        .title {
+            margin: 0;
+
+            color: #40352c;
+
+            font-size: clamp(36px, 6vw, 52px);
+
+            font-weight: 400;
+
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            margin: 12px 0 0;
+
+            color: #8b7b6b;
+
+            font-size: 16px;
+
+            font-style: italic;
+        }
+
+        .divider {
+            width: 70px;
+            height: 1px;
+
+            margin: 20px auto 0;
+
+            background: #c8a97e;
+        }
+
+        .card {
+            padding: 35px;
+
+            background: rgba(
+                255,
+                255,
+                255,
+                0.9
+            );
+
+            border: 1px solid #eadfd2;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(82, 64, 45, 0.06);
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #6d5d4d;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            letter-spacing: 0.5px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            background: #fffdf9;
+
+            border: 1px solid #dfd0bd;
+
+            border-radius: 10px;
+
+            color: #4b4036;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #c8a97e;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(200, 169, 126, 0.12);
+        }
+
+        input[type="file"] {
+            padding: 10px;
+        }
+
+        input[type="checkbox"] {
+            width: auto;
+
+            margin-right: 8px;
+
+            vertical-align: middle;
+        }
+
+        .help-text {
+            margin-top: 6px;
+
+            color: #a49484;
+
+            font-size: 12px;
+        }
+
+        .error {
+            margin-top: 7px;
+
+            color: #96645c;
+
+            font-size: 12px;
+        }
+
+        .actions {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-top: 30px;
+        }
+
+        .button {
+            display: inline-block;
+
+            padding: 12px 22px;
+
+            border: 1px solid #c8a97e;
+
+            border-radius: 10px;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 14px;
+
+            text-decoration: none;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .button-primary {
+            background: #b89b72;
+
+            color: #fff;
+        }
+
+        .button-primary:hover {
+            background: #a98b62;
+
+            transform: translateY(-1px);
+        }
+
+        .button-secondary {
+            background: #fff;
+
+            border-color: #dfd0bd;
+
+            color: #6d5d4d;
+        }
+
+        .button-secondary:hover {
+            background: #f8f1e8;
+
+            transform: translateY(-1px);
+        }
+
+        .required {
+            color: #96645c;
+        }
+
+        .footer {
+            margin-top: 40px;
+
+            color: #a49484;
+
+            text-align: center;
+
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 94%;
+
+                padding-top: 30px;
+            }
+
+            .card {
+                padding: 25px 20px;
+            }
+
+            .actions {
+                flex-direction: column-reverse;
+
+                align-items: stretch;
+            }
+
+            .button {
+                width: 100%;
+
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <header class="header">
+
+        <p class="brand">
+            WeddingHub
+        </p>
+
+        <h1 class="title">
+            Laura &amp; Matheus
+        </h1>
+
+        <p class="subtitle">
+            {{ title }}
+        </p>
+
+        <div class="divider"></div>
+
+    </header>
+
+
+    <div class="card">
+
+        <form
+            method="post"
+            enctype="multipart/form-data"
+        >
+
+            {% csrf_token %}
+
+
+            {% for field in form %}
+
+                <div class="form-group">
+
+                    <label for="{{ field.id_for_label }}">
+
+                        {{ field.label }}
+
+                        {% if field.field.required %}
+                            <span class="required">*</span>
+                        {% endif %}
+
+                    </label>
+
+
+                    {{ field }}
+
+
+                    {% if field.help_text %}
+
+                        <div class="help-text">
+                            {{ field.help_text }}
+                        </div>
+
+                    {% endif %}
+
+
+                    {% for error in field.errors %}
+
+                        <div class="error">
+                            {{ error }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endfor %}
+
+
+            {% if form.non_field_errors %}
+
+                {% for error in form.non_field_errors %}
+
+                    <div class="error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+
+            <div class="actions">
+
+                <a
+                    class="button button-secondary"
+                    href="{% url 'gifts:gift-page' %}"
+                >
+                    ← Voltar
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="button button-primary"
+                >
+                    {% if gift %}
+                        Salvar alterações
+                    {% else %}
+                        Cadastrar presente
+                    {% endif %}
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <footer class="footer">
+
+        WeddingHub · Laura &amp; Matheus
+
+    </footer>
+
+</div>
+
+</body>
+
+</html>

@@ -15,6 +15,7 @@ from .serializers import CheckoutSerializer, PaymentSerializer
 from .services import (
     MercadoPagoAPIError,
     MercadoPagoConfigurationError,
+    create_pix_payment,
     create_preference,
     get_payment,
     normalize_amount,
@@ -87,14 +88,18 @@ class PaymentViewSet(viewsets.ModelViewSet):
 
         try:
             preference = create_preference(payment)
+
         except MercadoPagoConfigurationError as exc:
             payment.delete()
+
             return Response(
                 {"detail": str(exc)},
                 status=status.HTTP_503_SERVICE_UNAVAILABLE,
             )
+
         except MercadoPagoAPIError as exc:
             payment.delete()
+
             return Response(
                 {"detail": str(exc)},
                 status=status.HTTP_502_BAD_GATEWAY,
@@ -109,6 +114,72 @@ class PaymentViewSet(viewsets.ModelViewSet):
                 "preference_id": preference.get("id"),
                 "checkout_url": preference.get("init_point"),
                 "status": payment.status,
+            },
+            status=status.HTTP_201_CREATED,
+        )
+
+    @action(
+        detail=False,
+        methods=["post"],
+        permission_classes=[AllowAny],
+        authentication_classes=[],
+        url_path="pix",
+    )
+    def pix(self, request):
+        """Create a public Mercado Pago Pix payment."""
+        serializer = CheckoutSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        gift = serializer.validated_data["gift"]
+
+        payment = Payment.objects.create(
+            gift=gift,
+            guest_name=serializer.validated_data["guest_name"],
+            guest_email=serializer.validated_data["guest_email"],
+            amount=gift.price,
+            status=Payment.Status.PENDING,
+        )
+
+        try:
+            mercado_pago_payment = create_pix_payment(payment)
+
+        except MercadoPagoConfigurationError as exc:
+            payment.delete()
+
+            return Response(
+                {"detail": str(exc)},
+                status=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
+
+        except MercadoPagoAPIError as exc:
+            payment.delete()
+
+            return Response(
+                {"detail": str(exc)},
+                status=status.HTTP_502_BAD_GATEWAY,
+            )
+
+        transaction_id = mercado_pago_payment.get("id")
+
+        if transaction_id:
+            payment.transaction_id = str(transaction_id)
+            payment.save(update_fields=["transaction_id"])
+
+        transaction_data = (
+            mercado_pago_payment.get("point_of_interaction", {})
+            .get("transaction_data", {})
+        )
+
+        return Response(
+            {
+                "payment_id": payment.id,
+                "transaction_id": transaction_id,
+                "status": payment.status,
+                "qr_code": transaction_data.get("qr_code"),
+                "qr_code_base64": transaction_data.get(
+                    "qr_code_base64"
+                ),
+                "ticket_url": transaction_data.get("ticket_url"),
             },
             status=status.HTTP_201_CREATED,
         )
@@ -134,18 +205,22 @@ def mercadopago_webhook(request):
 
     try:
         mercado_pago_payment = get_payment(data_id)
+
     except MercadoPagoConfigurationError as exc:
         return Response(
             {"detail": str(exc)},
             status=status.HTTP_503_SERVICE_UNAVAILABLE,
         )
+
     except MercadoPagoAPIError as exc:
         return Response(
             {"detail": str(exc)},
             status=status.HTTP_502_BAD_GATEWAY,
         )
 
-    external_reference = mercado_pago_payment.get("external_reference")
+    external_reference = mercado_pago_payment.get(
+        "external_reference"
+    )
 
     if not external_reference:
         return Response(
@@ -155,13 +230,19 @@ def mercadopago_webhook(request):
 
     try:
         with transaction.atomic():
-            payment = Payment.objects.select_for_update().select_related(
-                "gift"
-            ).get(pk=external_reference)
+            payment = (
+                Payment.objects.select_for_update()
+                .select_related("gift")
+                .get(pk=external_reference)
+            )
 
             local_amount = normalize_amount(payment.amount)
+
             remote_amount = normalize_amount(
-                mercado_pago_payment.get("transaction_amount", 0)
+                mercado_pago_payment.get(
+                    "transaction_amount",
+                    0,
+                )
             )
 
             if local_amount != remote_amount:
@@ -171,6 +252,7 @@ def mercadopago_webhook(request):
                 )
 
             remote_status = mercado_pago_payment.get("status")
+
             status_map = {
                 "approved": Payment.Status.PAID,
                 "pending": Payment.Status.PENDING,
@@ -180,33 +262,49 @@ def mercadopago_webhook(request):
                 "refunded": Payment.Status.REFUNDED,
                 "charged_back": Payment.Status.REFUNDED,
             }
+
             new_status = status_map.get(
                 remote_status,
                 Payment.Status.PENDING,
             )
 
             old_status = payment.status
+
             payment.status = new_status
             payment.transaction_id = str(data_id)
-            payment.save(update_fields=["status", "transaction_id"])
+
+            payment.save(
+                update_fields=[
+                    "status",
+                    "transaction_id",
+                ]
+            )
 
             if (
                 new_status == Payment.Status.PAID
                 and old_status != Payment.Status.PAID
             ):
                 gift = payment.gift
+
                 if gift.reserved < gift.quantity:
                     gift.reserved += 1
-                    gift.save(update_fields=["reserved"])
+
+                    gift.save(
+                        update_fields=["reserved"]
+                    )
 
             if (
                 new_status == Payment.Status.REFUNDED
                 and old_status == Payment.Status.PAID
             ):
                 gift = payment.gift
+
                 if gift.reserved > 0:
                     gift.reserved -= 1
-                    gift.save(update_fields=["reserved"])
+
+                    gift.save(
+                        update_fields=["reserved"]
+                    )
 
     except Payment.DoesNotExist:
         return Response(

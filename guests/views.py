@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
 from rest_framework import status, viewsets
@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 
+from .forms import GuestForm
 from .models import Guest
 from .serializers import GuestSerializer
 
@@ -118,6 +119,112 @@ def guest_list_page(request):
         {
             "wedding": wedding,
             "guests": guests,
+        },
+    )
+
+
+@login_required
+def guest_create_page(request):
+    wedding = get_object_or_404(
+        Wedding,
+        owner=request.user,
+    )
+
+    if request.method == "POST":
+        form = GuestForm(request.POST)
+
+        if form.is_valid():
+            guest = form.save(commit=False)
+            guest.wedding = wedding
+            guest.save()
+
+            return redirect(
+                "guests:guest-page",
+            )
+
+    else:
+        form = GuestForm()
+
+    return render(
+        request,
+        "guests/guest_form.html",
+        {
+            "wedding": wedding,
+            "form": form,
+            "title": "Novo convidado",
+        },
+    )
+
+
+@login_required
+def guest_edit_page(request, pk):
+    wedding = get_object_or_404(
+        Wedding,
+        owner=request.user,
+    )
+
+    guest = get_object_or_404(
+        Guest,
+        pk=pk,
+        wedding=wedding,
+    )
+
+    if request.method == "POST":
+        form = GuestForm(
+            request.POST,
+            instance=guest,
+        )
+
+        if form.is_valid():
+            form.save()
+
+            return redirect(
+                "guests:guest-page",
+            )
+
+    else:
+        form = GuestForm(
+            instance=guest,
+        )
+
+    return render(
+        request,
+        "guests/guest_form.html",
+        {
+            "wedding": wedding,
+            "form": form,
+            "title": "Editar convidado",
+            "guest": guest,
+        },
+    )
+
+
+@login_required
+def guest_delete_page(request, pk):
+    wedding = get_object_or_404(
+        Wedding,
+        owner=request.user,
+    )
+
+    guest = get_object_or_404(
+        Guest,
+        pk=pk,
+        wedding=wedding,
+    )
+
+    if request.method == "POST":
+        guest.delete()
+
+        return redirect(
+            "guests:guest-page",
+        )
+
+    return render(
+        request,
+        "guests/guest_delete.html",
+        {
+            "wedding": wedding,
+            "guest": guest,
         },
     )
 

@@ -22,9 +22,11 @@ class CheckoutSerializer(serializers.Serializer):
             wedding__is_public=True,
         ),
     )
+
     guest_name = serializers.CharField(
         max_length=255,
     )
+
     guest_email = serializers.EmailField()
 
     def validate_gift(self, gift):

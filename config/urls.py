@@ -51,7 +51,10 @@ urlpatterns = [
 
     path(
         "api/guests/",
-        include("guests.urls"),
+        include(
+            ("guests.urls", "guests"),
+            namespace="guests",
+        ),
     ),
 
     path(

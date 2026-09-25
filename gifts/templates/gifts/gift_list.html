@@ -1,5 +1,3 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -12,7 +10,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Convidados | WeddingHub</title>
+    <title>Lista de Presentes | WeddingHub</title>
 
     <style>
 
@@ -176,7 +174,7 @@
             transform: translateY(-1px);
         }
 
-        .guest-count {
+        .gift-count {
             margin-bottom: 18px;
 
             color: #9a8977;
@@ -184,14 +182,26 @@
             font-size: 14px;
         }
 
-        .table-wrapper {
-            overflow-x: auto;
+        .gift-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(280px, 1fr)
+                );
+
+            gap: 22px;
+        }
+
+        .gift-card {
+            overflow: hidden;
 
             background: rgba(
                 255,
                 255,
                 255,
-                0.88
+                0.9
             );
 
             border: 1px solid #eadfd2;
@@ -201,64 +211,108 @@
             box-shadow:
                 0 10px 30px
                 rgba(82, 64, 45, 0.06);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
         }
 
-        table {
+        .gift-card:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 14px 35px
+                rgba(82, 64, 45, 0.1);
+        }
+
+        .gift-image {
             width: 100%;
+            height: 210px;
 
-            border-collapse: collapse;
+            background: #f5eee5;
+
+            object-fit: cover;
+
+            display: block;
         }
 
-        th {
-            padding: 18px 20px;
+        .gift-image-placeholder {
+            width: 100%;
+            height: 210px;
 
-            background: #faf6f0;
+            display: flex;
 
-            border-bottom: 1px solid #eadfd2;
+            align-items: center;
+            justify-content: center;
 
-            color: #9a8977;
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8f1e8,
+                    #efe3d3
+                );
 
-            font-size: 12px;
+            color: #b89b72;
 
-            font-weight: 600;
-
-            letter-spacing: 1.5px;
-
-            text-align: left;
-
-            text-transform: uppercase;
+            font-size: 48px;
         }
 
-        td {
-            padding: 18px 20px;
-
-            border-bottom: 1px solid #f0e8de;
-
-            color: #5b4e42;
-
-            font-size: 14px;
+        .gift-content {
+            padding: 22px;
         }
 
-        tr:last-child td {
-            border-bottom: none;
-        }
+        .gift-name {
+            margin: 0 0 8px;
 
-        .guest-name {
             color: #40352c;
 
-            font-size: 16px;
+            font-size: 22px;
+
+            font-weight: 400;
         }
 
-        .guest-email {
+        .gift-description {
+            min-height: 42px;
+
+            margin: 0 0 18px;
+
+            color: #8b7b6b;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+        .gift-price {
+            margin-bottom: 15px;
+
+            color: #b89b72;
+
+            font-size: 21px;
+
+            font-weight: 600;
+        }
+
+        .gift-info {
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 10px;
+
+            padding-top: 15px;
+
+            border-top: 1px solid #f0e8de;
+
             color: #8b7b6b;
 
             font-size: 13px;
         }
 
-        .status {
+        .gift-status {
             display: inline-block;
 
-            padding: 6px 11px;
+            padding: 6px 10px;
 
             border-radius: 20px;
 
@@ -266,24 +320,24 @@
 
             font-weight: 600;
 
-            letter-spacing: 0.8px;
+            letter-spacing: 0.5px;
 
             text-transform: uppercase;
         }
 
-        .status-confirmed {
+        .status-available {
             background: #e8f1e8;
 
             color: #557255;
         }
 
-        .status-pending {
+        .status-reserved {
             background: #f7efdc;
 
             color: #927648;
         }
 
-        .status-declined {
+        .status-inactive {
             background: #f4e4e1;
 
             color: #96645c;
@@ -292,19 +346,21 @@
         .actions {
             display: flex;
 
-            align-items: center;
-
             gap: 8px;
+
+            margin-top: 18px;
         }
 
         .action-button {
-            display: inline-block;
+            flex: 1;
 
-            padding: 7px 11px;
+            padding: 9px 10px;
 
-            border-radius: 8px;
+            border-radius: 9px;
 
             font-size: 12px;
+
+            text-align: center;
 
             text-decoration: none;
 
@@ -342,9 +398,32 @@
         }
 
         .empty {
-            padding: 50px 25px;
+            padding: 60px 25px;
+
+            background: rgba(
+                255,
+                255,
+                255,
+                0.9
+            );
+
+            border: 1px solid #eadfd2;
+
+            border-radius: 18px;
 
             text-align: center;
+
+            box-shadow:
+                0 10px 30px
+                rgba(82, 64, 45, 0.06);
+        }
+
+        .empty-icon {
+            margin-bottom: 15px;
+
+            color: #b89b72;
+
+            font-size: 45px;
         }
 
         .empty-title {
@@ -393,7 +472,13 @@
             font-size: 13px;
         }
 
-        @media (max-width: 800px) {
+        @media (max-width: 700px) {
+
+            .container {
+                width: 94%;
+
+                padding-top: 30px;
+            }
 
             .top-bar {
                 align-items: flex-start;
@@ -404,20 +489,6 @@
             .top-actions {
                 width: 100%;
 
-                flex-wrap: wrap;
-            }
-
-        }
-
-        @media (max-width: 700px) {
-
-            .container {
-                width: 94%;
-
-                padding-top: 30px;
-            }
-
-            .top-actions {
                 flex-direction: column;
 
                 align-items: stretch;
@@ -428,13 +499,8 @@
                 text-align: center;
             }
 
-            .table-wrapper {
-                border-radius: 14px;
-            }
-
-            th,
-            td {
-                padding: 14px 12px;
+            .gift-grid {
+                grid-template-columns: 1fr;
             }
 
         }
@@ -459,7 +525,7 @@
         </h1>
 
         <p class="subtitle">
-            Lista de convidados
+            Lista de presentes
         </p>
 
         <div class="divider"></div>
@@ -470,7 +536,7 @@
     <div class="top-bar">
 
         <h2 class="top-bar-title">
-            Convidados
+            Presentes
         </h2>
 
 
@@ -478,9 +544,9 @@
 
             <a
                 class="new-button"
-                href="{% url 'guests:guest-create' %}"
+                href="{% url 'gifts:gift-create' %}"
             >
-                + Novo convidado
+                + Novo presente
             </a>
 
             <a
@@ -495,175 +561,154 @@
     </div>
 
 
-    <div class="guest-count">
+    <div class="gift-count">
 
-        {{ guests|length }} convidado(s) cadastrado(s)
+        {{ gifts|length }} presente(s) cadastrado(s)
 
     </div>
 
 
-    <div class="table-wrapper">
+    {% if gifts %}
 
-        {% if guests %}
+        <div class="gift-grid">
 
-            <table>
+            {% for gift in gifts %}
 
-                <thead>
+                <div class="gift-card">
 
-                    <tr>
+                    {% if gift.image %}
 
-                        <th>
-                            Nome
-                        </th>
+                        <img
+                            class="gift-image"
+                            src="{{ gift.image.url }}"
+                            alt="{{ gift.name }}"
+                        >
 
-                        <th>
-                            E-mail
-                        </th>
+                    {% else %}
 
-                        <th>
-                            Telefone
-                        </th>
+                        <div class="gift-image-placeholder">
+                            🎁
+                        </div>
 
-                        <th>
-                            Acompanhantes
-                        </th>
-
-                        <th>
-                            Status
-                        </th>
-
-                        <th>
-                            Ações
-                        </th>
-
-                    </tr>
-
-                </thead>
+                    {% endif %}
 
 
-                <tbody>
+                    <div class="gift-content">
 
-                    {% for guest in guests %}
-
-                        <tr>
-
-                            <td>
-
-                                <div class="guest-name">
-                                    {{ guest.full_name }}
-                                </div>
-
-                            </td>
+                        <h2 class="gift-name">
+                            {{ gift.name }}
+                        </h2>
 
 
-                            <td>
+                        <p class="gift-description">
 
-                                <div class="guest-email">
-                                    {{ guest.email }}
-                                </div>
+                            {% if gift.description %}
 
-                            </td>
+                                {{ gift.description }}
 
+                            {% else %}
 
-                            <td>
+                                Presente para Laura &amp; Matheus.
 
-                                {{ guest.phone|default:"—" }}
+                            {% endif %}
 
-                            </td>
-
-
-                            <td>
-
-                                {{ guest.companions }}
-
-                            </td>
+                        </p>
 
 
-                            <td>
+                        <div class="gift-price">
 
-                                {% if guest.status == "CONFIRMED" %}
+                            R$ {{ gift.price|floatformat:2 }}
 
-                                    <span
-                                        class="status status-confirmed"
-                                    >
-                                        Confirmado
-                                    </span>
-
-                                {% elif guest.status == "DECLINED" %}
-
-                                    <span
-                                        class="status status-declined"
-                                    >
-                                        Recusado
-                                    </span>
-
-                                {% else %}
-
-                                    <span
-                                        class="status status-pending"
-                                    >
-                                        Pendente
-                                    </span>
-
-                                {% endif %}
-
-                            </td>
+                        </div>
 
 
-                            <td>
+                        <div class="gift-info">
 
-                                <div class="actions">
+                            <span>
+                                Quantidade: {{ gift.quantity }}
+                            </span>
 
-                                    <a
-                                        class="action-button edit-button"
-                                        href="{% url 'guests:guest-edit' guest.pk %}"
-                                    >
-                                        ✏️ Editar
-                                    </a>
 
-                                    <a
-                                        class="action-button delete-button"
-                                        href="{% url 'guests:guest-delete' guest.pk %}"
-                                    >
-                                        🗑️ Excluir
-                                    </a>
+                            {% if not gift.is_active %}
 
-                                </div>
+                                <span class="gift-status status-inactive">
+                                    Inativo
+                                </span>
 
-                            </td>
+                            {% elif gift.reserved >= gift.quantity %}
 
-                        </tr>
+                                <span class="gift-status status-reserved">
+                                    Reservado
+                                </span>
 
-                    {% endfor %}
+                            {% else %}
 
-                </tbody>
+                                <span class="gift-status status-available">
+                                    Disponível
+                                </span>
 
-            </table>
+                            {% endif %}
 
-        {% else %}
+                        </div>
 
-            <div class="empty">
 
-                <h2 class="empty-title">
-                    Nenhum convidado cadastrado
-                </h2>
+                        <div class="actions">
 
-                <p class="empty-text">
-                    Os convidados cadastrados aparecerão aqui.
-                </p>
+                            <a
+                                class="action-button edit-button"
+                                href="{% url 'gifts:gift-edit' gift.pk %}"
+                            >
+                                ✏️ Editar
+                            </a>
 
-                <a
-                    class="empty-button"
-                    href="{% url 'guests:guest-create' %}"
-                >
-                    + Cadastrar primeiro convidado
-                </a>
 
+                            <a
+                                class="action-button delete-button"
+                                href="{% url 'gifts:gift-delete' gift.pk %}"
+                            >
+                                🗑️ Excluir
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty">
+
+            <div class="empty-icon">
+                🎁
             </div>
 
-        {% endif %}
 
-    </div>
+            <h2 class="empty-title">
+                Nenhum presente cadastrado
+            </h2>
+
+
+            <p class="empty-text">
+                Cadastre os presentes que farão parte da
+                lista de Laura &amp; Matheus.
+            </p>
+
+
+            <a
+                class="empty-button"
+                href="{% url 'gifts:gift-create' %}"
+            >
+                + Cadastrar primeiro presente
+            </a>
+
+        </div>
+
+    {% endif %}
 
 
     <footer class="footer">

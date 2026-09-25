@@ -1,5 +1,6 @@
 import hashlib
 import hmac
+import uuid
 from decimal import Decimal
 
 import requests
@@ -64,10 +65,16 @@ def create_preference(payment):
         "MERCADO_PAGO_NOTIFICATION_URL",
         "",
     )
+
     if notification_url:
         data["notification_url"] = notification_url
 
-    public_base_url = getattr(settings, "PUBLIC_BASE_URL", "").rstrip("/")
+    public_base_url = getattr(
+        settings,
+        "PUBLIC_BASE_URL",
+        "",
+    ).rstrip("/")
+
     if public_base_url.startswith("https://"):
         data["back_urls"] = {
             "success": f"{public_base_url}/pagamento/sucesso/",
@@ -90,6 +97,59 @@ def create_preference(payment):
         )
 
     return response.json()
+
+
+def create_pix_payment(payment):
+    """Create a Mercado Pago Pix payment for a specific gift."""
+    data = {
+        "transaction_amount": float(payment.amount),
+        "description": payment.gift.name,
+        "payment_method_id": "pix",
+        "external_reference": str(payment.id),
+        "payer": {
+            "email": payment.guest_email,
+            "first_name": payment.guest_name,
+        },
+    }
+
+    notification_url = getattr(
+        settings,
+        "MERCADO_PAGO_NOTIFICATION_URL",
+        "",
+    )
+
+    if notification_url:
+        data["notification_url"] = notification_url
+
+    headers = _headers()
+    headers["X-Idempotency-Key"] = str(uuid.uuid4())
+
+    response = requests.post(
+        "https://api.mercadopago.com/v1/payments",
+        headers=headers,
+        json=data,
+        timeout=20,
+    )
+
+    if not response.ok:
+        raise MercadoPagoAPIError(
+            f"Mercado Pago returned HTTP {response.status_code}: "
+            f"{response.text[:500]}"
+        )
+
+    result = response.json()
+
+    transaction_data = (
+        result.get("point_of_interaction", {})
+        .get("transaction_data", {})
+    )
+
+    if not transaction_data.get("qr_code"):
+        raise MercadoPagoAPIError(
+            "Mercado Pago did not return the Pix QR Code."
+        )
+
+    return result
 
 
 def get_payment(payment_id):
@@ -119,8 +179,10 @@ def validate_webhook_signature(request, data_id):
         return False
 
     parts = {}
+
     for item in x_signature.split(","):
         key, separator, value = item.strip().partition("=")
+
         if separator:
             parts[key] = value
 
